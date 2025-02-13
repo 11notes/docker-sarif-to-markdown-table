@@ -1,4 +1,5 @@
 {
+  "arch":"linux/amd64",
   "image":"11notes/sarif-to-markdown-table",
   "name":"sarif-to-markdown-table",
   "root":"/sarif-to-markdown-table",

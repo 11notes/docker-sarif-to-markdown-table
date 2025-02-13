@@ -139,7 +139,8 @@ jobs:
 
       - name: grype / report / print
         if: success() || failure()
-        run: cat ${{ steps.scan.outputs.sarif }}
+        run: |
+          cat ${{ steps.scan.outputs.sarif }}
 
       - name: grype / report / sarif to markdown
         id: sariftomarkdown
@@ -148,7 +149,8 @@ jobs:
           sarif_file: ${{ steps.scan.outputs.sarif }}
 
       - name: grype / report / print markdown
-        run: cat ${{ steps.sariftomarkdown.outputs.markdown }}
+        run: |
+          cat ${{ steps.sariftomarkdown.outputs.markdown }}
 
       - name: grype / delete tag
         if: success() || failure()

@@ -1,3 +1,7 @@
-#!/bin/ash
+#!/bin/sh
+  printf '%d args:' "$#"
+  printf " '%s'" "$@"
+  printf '\n'
+  
 
-  echo $@
+  ls -lah /github/*

@@ -39,3 +39,6 @@
     COPY ./rootfs /
     RUN set -ex; \
       chmod +x -R /usr/local/bin;
+
+# :: Start
+  ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
