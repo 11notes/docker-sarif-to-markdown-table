@@ -141,12 +141,6 @@ jobs:
         if: success() || failure()
         run: cat ${{ steps.scan.outputs.sarif }}
 
-      - name: grype / report / sarif to markdown
-        uses: 11notes/action-sarif-to-markdown@v0.0.1
-        if: success() || failure()
-        with:
-          sarif: ${{ steps.scan.outputs.sarif }}
-
       - name: grype / delete tag
         if: success() || failure()
         run: |
