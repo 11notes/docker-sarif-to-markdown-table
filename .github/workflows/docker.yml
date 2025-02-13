@@ -144,16 +144,15 @@ jobs:
 
       - name: debug / runner
         run: |
-          ls -lah /
-          ls -lah /runner/*
           ls -lah /home/runner/*
-          echo "foo" > /runner/_work/_temp/_github_home/bar
+          find /home/runner -name _github_home
+          echo "foo" > /home/runner/work/_temp/_github_home/bar
 
       - name: debug / runner in container
         uses: docker://alpine:latest
         with:
           entrypoint: /bin/ash
-          args: -c "ls -lah /github/*"
+          args: -c "ls -lah /github/home/*"
 
       - name: grype / report / sarif to markdown
         id: sariftomarkdown
