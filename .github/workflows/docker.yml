@@ -28,6 +28,9 @@ on:
         description: 'suffix for semver tags'
         required: false
 
+env:
+    RUNNER_HOME: /home/runner/work/_temp/_github_home
+
 jobs:
   docker:
     runs-on: ubuntu-22.04
@@ -94,6 +97,9 @@ jobs:
           echo "IMAGE_SEMVER_SUFFIX=${LOCAL_SEMVER_SUFFIX}" >> $GITHUB_ENV
           echo "IMAGE_VERSION_RC=${LOCAL_SEMVER_RC}" >> $GITHUB_ENV
 
+          : # fix runner issue with home directory
+          mkdir -p ${RUNNER_HOME};
+
 
       - name: docker / login to hub
         uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567
@@ -137,28 +143,24 @@ jobs:
           image: ${{ env.IMAGE }}:${{ env.IMAGE_SEMVER_PREFIX }}grype${{ env.IMAGE_SEMVER_SUFFIX }}
           severity-cutoff: ${{ env.WORKFLOW_GRYPE_SEVERITY_CUTOFF }}
 
-      - name: grype / report / print
+      - name: grype / report / save to home
         if: success() || failure()
         run: |
-          cat ${{ steps.scan.outputs.sarif }}
-
-      - name: debug / runner
-        run: |
-          mkdir -p /home/runner/work/_temp/_github_home
-          echo "foo" > /home/runner/work/_temp/_github_home/bar.log
-          
-
-      - name: debug / runner in container
-        uses: docker://alpine:latest
-        with:
-          entrypoint: /bin/ash
-          args: -c "ls -lah /github/*/*"
+          cat ${{ steps.scan.outputs.sarif }} > ${{ env.RUNNER_HOME }}/report.sarif
 
       - name: grype / report / sarif to markdown
-        id: sariftomarkdown
+        id: markdown
         uses: 11notes/action-sarif-to-markdown@v1.0.0
         with:
           sarif_file: report.sarif
+
+      - name: debug / grype / report / sarif to markdown
+        run: |
+          cat ${{ steps.markdown.outputs.markdown }}
+
+      - name: debug / runner
+        run: |
+          echo "${{ runner.temp }}"
 
       - name: grype / delete tag
         if: success() || failure()
