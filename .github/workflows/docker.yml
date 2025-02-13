@@ -156,7 +156,7 @@ jobs:
 
       - name: debug / grype / report / sarif to markdown
         run: |
-          cat ${{ steps.sarif.outputs.markdown }}
+          echo ${{ steps.sarif.outputs.markdown }}
 
       - name: debug / runner
         run: |
