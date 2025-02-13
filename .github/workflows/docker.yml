@@ -152,7 +152,7 @@ jobs:
         uses: docker://alpine:latest
         with:
           entrypoint: /bin/ash
-          args: -c "ls -lah /github/home/*"
+          args: -c "ls -lah /github/*/*"
 
       - name: grype / report / sarif to markdown
         id: sariftomarkdown
