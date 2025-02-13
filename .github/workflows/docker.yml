@@ -144,9 +144,8 @@ jobs:
 
       - name: debug / runner
         run: |
-          ls -lah /home/runner/*
-          find /home/runner -name _github_home
-          echo "foo" > /home/runner/work/_temp/_github_home/bar
+          ls -lah /home/runner/work/_temp/*
+          find /home/runner/work/_temp -name *github*
 
       - name: debug / runner in container
         uses: docker://alpine:latest
