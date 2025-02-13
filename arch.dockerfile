@@ -38,9 +38,4 @@
   # :: copy filesystem changes and set correct permissions
     COPY ./rootfs /
     RUN set -ex; \
-      chmod +x -R /usr/local/bin; \
-      chown -R 1000:1000 \
-        ${APP_ROOT};
-
-# :: Start
-USER docker
+      chmod +x -R /usr/local/bin;
