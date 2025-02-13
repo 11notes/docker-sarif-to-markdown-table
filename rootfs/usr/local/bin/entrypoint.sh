@@ -1,8 +1,5 @@
 #!/bin/ash
-  SARIF=/github/home/${1}
-  SARIF_MD=/github/home/sarif.md
-  if [ -f ${SARIF} ]; then
-    cat ${SARIF} | sarif-to-markdown-table > ${SARIF_MD}
-    cat ${SARIF_MD}
-    echo "markdown=$(cat ${SARIF_MD})" >> $GITHUB_OUTPUT
+  if [ -f ${1} ]; then
+    cat ${1} | sarif-to-markdown-table > ${APP_ROOT}/sarif.md
+    echo "markdown=$(cat ${APP_ROOT}/sarif.md)" >> $GITHUB_OUTPUT
   fi
