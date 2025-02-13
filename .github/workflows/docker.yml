@@ -142,11 +142,17 @@ jobs:
         run: |
           cat ${{ steps.scan.outputs.sarif }}
 
+      - name: debug / runner
+        uses: docker://alpine:latest
+        with:
+          entrypoint: /bin/ash
+          args: -c "ls -lah /github/*"
+
       - name: grype / report / sarif to markdown
         id: sariftomarkdown
         uses: 11notes/action-sarif-to-markdown@v1.0.0
         with:
-          sarif_file: ${{ steps.scan.outputs.sarif }}
+          sarif_file: report.sarif
 
       - name: grype / report / print markdown
         run: |

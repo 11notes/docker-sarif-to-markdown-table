@@ -15,6 +15,7 @@
 
   # :: arguments
     ARG TARGETARCH
+    ARG APP_NO_CACHE
     ARG APP_IMAGE
     ARG APP_NAME
     ARG APP_VERSION
