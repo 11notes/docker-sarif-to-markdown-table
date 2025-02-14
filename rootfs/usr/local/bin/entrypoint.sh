@@ -8,12 +8,11 @@
       cat ${GITHUB_WORKFLOW_HOME}/sarif.md
 
       # multiline GITHUB_OUTPUT
+      SARIFMD=$(cat ${GITHUB_WORKFLOW_HOME}/sarif.md)
       EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-      {
-        echo "markdown<<$EOF"
-        cat ${GITHUB_WORKFLOW_HOME}/sarif.md 
-        echo "$EOF"
-      } >> $GITHUB_OUTPUT
+      echo "markdown<<${EOF}" >> ${GITHUB_OUTPUT}
+      echo "${SARIFMD}" >> ${GITHUB_OUTPUT}
+      echo "${EOF}" >> ${GITHUB_OUTPUT}
     else
       echo "sarif report ${1} does not exist or path is wrong. Use ${GITHUB_WORKFLOW_HOME} within containers"
       echo "contents of ${GITHUB_WORKFLOW_HOME}"
