@@ -1,7 +1,7 @@
 #!/bin/ash
   GITHUB_WORKFLOW_HOME=/github/home
-  if [ -f ${1} ]; then
-    cat ${1} | sarif-to-markdown-table > ${GITHUB_WORKFLOW_HOME}/sarif.md
+  if [ -f ${GITHUB_WORKFLOW_HOME}/${1} ]; then
+    cat ${GITHUB_WORKFLOW_HOME}/${1} | sarif-to-markdown-table > ${GITHUB_WORKFLOW_HOME}/sarif.md
     cat ${GITHUB_WORKFLOW_HOME}/sarif.md
 
     # multiline GITHUB_OUTPUT
@@ -11,5 +11,6 @@
     echo "$EOF" >> $GITHUB_OUTPUT
   else
     echo "sarif report ${1} does not exist or path is wrong. Use ${GITHUB_WORKFLOW_HOME} within containers"
+    echo "contents of ${GITHUB_WORKFLOW_HOME}"
     ls -lah ${GITHUB_WORKFLOW_HOME}/*
   fi
