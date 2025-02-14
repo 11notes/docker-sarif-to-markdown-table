@@ -145,7 +145,7 @@ jobs:
         id: sarifmd
         uses: 11notes/action-sarif-to-markdown@v1.0.0
         with:
-          sarif_file: ${{ steps.scan.outputs.sarif }}
+          sarif_file: /github/home/grype.sarif
 
       - name: debug / grype / report / sarif to markdown
         run: |
