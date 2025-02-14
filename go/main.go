@@ -69,7 +69,7 @@ func main() {
 func getOrCreateRule(id string, driver *sarif.ToolComponent) (uint, string) {
 	for i, r := range driver.Rules {
 		if r.ID == id {
-			re := regexp.MustCompile(`CVE-\d{4}-\d{4}`)
+			re := regexp.MustCompile(`CVE-\d{4}-\d+`)
 			matches := re.FindStringSubmatch(id)
 
 			if matches != nil {
