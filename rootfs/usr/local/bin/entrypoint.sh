@@ -1,4 +1,5 @@
 #!/bin/ash
+  echo "file path is ${1}"
   if [ -f ${1} ]; then
     echo "converting ${1} to markdown"
     cat ${1} | sarif-to-markdown-table > ${APP_ROOT}/sarif.md
