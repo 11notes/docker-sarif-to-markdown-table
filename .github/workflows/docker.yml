@@ -94,7 +94,6 @@ jobs:
           echo "IMAGE_SEMVER_SUFFIX=${LOCAL_SEMVER_SUFFIX}" >> $GITHUB_ENV
           echo "IMAGE_VERSION_RC=${LOCAL_SEMVER_RC}" >> $GITHUB_ENV
 
-
       - name: docker / login to hub
         uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567
         with:
@@ -139,6 +138,18 @@ jobs:
           by-cve: true
           output-format: 'sarif'
           output-file: ${{ runner.temp }}/_github_home/grype.sarif
+
+      - name: grype / report / sarif to markdown
+        if: success() || failure()
+        id: sarifmd
+        uses: 11notes/action-sarif-to-markdown@v1.0.0
+        with:
+          sarif_file: grype.sarif
+
+      - name: debug / grype / report / sarif to markdown
+        run: |
+          echo "${{ steps.sarifmd.outputs.markdown }}"
+          echo "${{ toJSON(steps.sarifmd.outputs) }}"
 
       - name: grype / delete tag
         if: success() || failure()
