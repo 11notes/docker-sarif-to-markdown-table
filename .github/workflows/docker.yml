@@ -148,13 +148,6 @@ jobs:
         with:
           sarif_file: grype.sarif
 
-      - name: debug / grype / report / sarif to markdown
-        if: success() || failure()
-        continue-on-error: true
-        run: |
-          echo "${{ steps.sarif-to-md.outputs.markdown }}"
-          echo "${{ toJSON(steps.sarif-to-md.outputs) }}"
-
       - name: grype / delete tag
         if: steps.grype-tag.outcome == 'success'
         run: |
@@ -169,6 +162,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@48ab28a6f5dbc2a99bf1e0131198dd8f1df78169
         with:
           sarif_file: ${{ steps.grype-scan.outputs.sarif }}
+          category: grype
 
       - name: docker / build & push
         uses: docker/build-push-action@67a2d409c0a876cbe6b11854e3e25193efe4e62d
