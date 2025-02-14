@@ -141,6 +141,7 @@ jobs:
 
       - name: grype / report / sarif to markdown
         if: failure() && steps.scan.outcome == 'failure'
+        continue-on-error: true
         id: sarifmd
         uses: 11notes/action-sarif-to-markdown@v1.0.0
         with:
@@ -148,6 +149,7 @@ jobs:
 
       - name: debug / grype / report / sarif to markdown
         if: failure() && steps.scan.outcome == 'failure'
+        continue-on-error: true
         run: |
           echo "${{ steps.sarifmd.outputs.markdown }}"
           echo "${{ toJSON(steps.sarifmd.outputs) }}"
