@@ -22,16 +22,16 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Print("## Security Vulnerabilities\n\n")
+	fmt.Print("## Security Vulnerabilities Report\n\n")
 
 	// Loop through all the runs in the SARIF input
 	for _, run := range sarif.Runs {
 		tw := table.NewWriter()
 		tw.AppendHeader(table.Row{
-			"Rule ID",
+			"CVE",
 			"Severity",
-			"Rule details",
-			"Location",
+			"Description",
+			"Path",
 		})
 		for _, result := range run.Results {
 			ruleIndex, ruleIdString := getOrCreateRule(
@@ -73,7 +73,7 @@ func getOrCreateRule(id string, driver *sarif.ToolComponent) (uint, string) {
 			matches := re.FindStringSubmatch(id)
 
 			if matches != nil {
-				return uint(i), fmt.Sprintf("[%s](https://nvd.nist.gov/vuln/detail/%s)", matches, matches)
+				return uint(i), fmt.Sprintf("[%s](https://nvd.nist.gov/vuln/detail/%s)", matches[0], matches[0])
 			}
 
 			return uint(i), fmt.Sprintf("%s", id)
