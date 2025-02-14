@@ -140,19 +140,20 @@ jobs:
           output-file: ${{ runner.temp }}/_github_home/grype.sarif
 
       - name: grype / report / sarif to markdown
-        if: success() || failure()
+        if: failure() && steps.scan.outcome == 'failure'
         id: sarifmd
         uses: 11notes/action-sarif-to-markdown@v1.0.0
         with:
           sarif_file: grype.sarif
 
       - name: debug / grype / report / sarif to markdown
+        if: failure() && steps.scan.outcome == 'failure'
         run: |
           echo "${{ steps.sarifmd.outputs.markdown }}"
           echo "${{ toJSON(steps.sarifmd.outputs) }}"
 
       - name: grype / delete tag
-        if: success() || failure()
+        if: failure() && steps.scan.outcome == 'failure'
         run: |
           curl --request DELETE \
             --url https://hub.docker.com/v2/repositories/${{ env.IMAGE }}/tags/${{ env.IMAGE_SEMVER_PREFIX }}grype${{ env.IMAGE_SEMVER_SUFFIX }}/ \
